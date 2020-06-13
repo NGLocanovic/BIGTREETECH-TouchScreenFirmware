@@ -46,7 +46,7 @@
  */
 #define DEFAULT_LCD_BRIGHTNESS      10  // 10: LCD_100_PERCENT - Brightness value from list
 #define DEFAULT_LCD_IDLE_BRIGHTNESS 2   // 2: LCD_10_PERCENT - Brightness value from list
-#define DEFAULT_LCD_IDLE_TIMER      0   // 0: LCD_DIM_OFF
+#define DEFAULT_LCD_IDLE_TIMER      4   // 0: LCD_DIM_OFF
 #define LCD_DIM_CUSTOM_SECONDS      600 // Custom value in seconds. Will be used if LCD_DIM_CUSTOM_SECONDS is set as idle timer.
 
 //===========================================================================
@@ -63,7 +63,7 @@
  *         12: DARKBLUE,  13: DARKGREEN,  14: GRAY,   15: DARKGRAY
  */
 #define ST7920_BKCOLOR 1
-#define ST7920_FNCOLOR 0
+#define ST7920_FNCOLOR 8
 
 /**
  *  Text displayed at the top of the TFT in Marlin Mode.
@@ -91,7 +91,7 @@
  *
  *  Options:  0: Disabled    1: Enabled
  */
-#define SERIAL_ALWAYS_ON 0  // Default: 0 (Disabled)
+#define SERIAL_ALWAYS_ON 1  // Default: 0 (Disabled)
 
 //===========================================================================
 //========================== Touch Mode Settings ============================
@@ -153,12 +153,12 @@
 #define EXTRUDER_NUM 1    // set in 1~6
 #define FAN_NUM      1    // set in 1~6
 
-//                         PLA      PETG      ABS
-#define PREHEAT_LABELS   {"PLA",   "PETG",   "ABS"}
-#define PREHEAT_BED      {60,      70,       100}
-#define PREHEAT_HOTEND   {200,     250,      230}
+//                         PLA      PETG    PETG(Prusa)      ABS
+#define PREHEAT_LABELS   {"PLA",   "PETG",  "PETG(Prusa)",   "ABS"}
+#define PREHEAT_BED      {60,      75,      85,              100}
+#define PREHEAT_HOTEND   {215,     230,     250,             230}
 
-#define HEAT_MAX_TEMP    {150,    275,       275,       275,       275,       275,       275}    //max temperature can be set
+#define HEAT_MAX_TEMP    {120,    275,       275,       275,       275,       275,       275}    //max temperature can be set
 #define HEAT_SIGN_ID     {"B:",   "T0:",     "T1:",     "T2:",     "T3:",     "T4:",     "T5:"}
 #define HEAT_DISPLAY_ID  {"Bed",  "T0",      "T1",      "T2",      "T3",      "T4",      "T5"}
 #define HEAT_CMD         {"M140", "M104 T0", "M104 T1", "M104 T2", "M104 T3", "M104 T4", "M104 T5" };
@@ -186,7 +186,7 @@
 #define EXTRUDE_FAST_SPEED   1200
 
 // Size of machine
-#define X_MIN_POS 0
+#define X_MIN_POS -20
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define X_MAX_POS 235
@@ -298,12 +298,16 @@
  *
  * CUSTOM_X_LABEL is the name of the custom button, CUSTOM_X_GCODE is the G-code to be sent by the custom button, this should always end with a New-Line character '\n'
  */
-#define CUSTOM_0_LABEL "Disable Steppers"
-#define CUSTOM_0_GCODE "M84\n"
-#define CUSTOM_1_LABEL "Init SD Card"
-#define CUSTOM_1_GCODE "M21\n"
-#define CUSTOM_2_LABEL "Release SD Card"
-#define CUSTOM_2_GCODE "M22\n"
+#define CUSTOM_0_LABEL "Home Z"
+#define CUSTOM_0_GCODE "G28 Z\n"
+#define CUSTOM_1_LABEL "Nozzle to Center"
+#define CUSTOM_1_GCODE "G1 X108 Y108 Z0.5\n"
+#define CUSTOM_2_LABEL "Z: -0.1"
+#define CUSTOM_2_GCODE "G91\nG1 Z-0.1\nG90\n"
+// #define CUSTOM_1_LABEL "Init SD Card"
+// #define CUSTOM_1_GCODE "M21\n"
+// #define CUSTOM_2_LABEL "Release SD Card"
+// #define CUSTOM_2_GCODE "M22\n"
 #define CUSTOM_3_LABEL "Enable Leveling State"
 #define CUSTOM_3_GCODE "M420 S1\n"
 #define CUSTOM_4_LABEL "Save to EEPROM"
@@ -312,8 +316,8 @@
 #define CUSTOM_5_GCODE "M501\n"
 #define CUSTOM_6_LABEL "EEPROM Defaults"
 #define CUSTOM_6_GCODE "M502\n"
-//#define CUSTOM_7_LABEL "Custom7"
-//#define CUSTOM_7_GCODE "M105\n"
+#define CUSTOM_7_LABEL "Disable Steppers"
+#define CUSTOM_7_GCODE "M84\n"
 //#define CUSTOM_8_LABEL "Custom8"
 //#define CUSTOM_8_GCODE "M105\n"
 //#define CUSTOM_9_LABEL "Custom9"
@@ -337,12 +341,15 @@
  * Enable Start & End G-code in SETTINGS -> FEATURE menu.
  */
 // Start G-code - run this G-code before starting print
-#define PRINT_START_GCODE "G28 XY R10\n" // Raise Z 10mm before homing X & Y
+// #define PRINT_START_GCODE "G28 XY R10\n" // Raise Z 10mm before homing X & Y
+#define PRINT_START_GCODE "\n" // Raise Z 10mm before homing X & Y
 
 // End G-code - run this G-code after finishing print
-#define PRINT_END_GCODE "G90\nG1 E-4\nG92 E0\nM18\n" // Switch to absolute positioning, reduce filament pressure by performing small retract, reset extruder position, disable steppers
+// #define PRINT_END_GCODE "G90\nG1 E-4\nG92 E0\nM18\n" // Switch to absolute positioning, reduce filament pressure by performing small retract, reset extruder position, disable steppers
+#define PRINT_END_GCODE "\n" // Switch to absolute positioning, reduce filament pressure by performing small retract, reset extruder position, disable steppers
 
 // Cancel G-code - run this G-code after canceling print
-#define PRINT_CANCEL_GCODE "G28 XY R10\n" // Home XY and raise Z 10mm
+// #define PRINT_CANCEL_GCODE "G28 XY R10\n" // Home XY and raise Z 10mm
+#define PRINT_CANCEL_GCODE "\n" // Home XY and raise Z 10mm
 
 #endif
