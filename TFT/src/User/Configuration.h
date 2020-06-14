@@ -68,7 +68,8 @@
 /**
  *  Text displayed at the top of the TFT in Marlin Mode.
  */
-#define ST7920_BANNER_TEXT "LCD12864 Simulator"
+// #define ST7920_BANNER_TEXT "LCD12864 Simulator"
+#define ST7920_BANNER_TEXT "AM8"
 
 /**
  *  show banner text at the top of the TFT in Marlin Mode.
